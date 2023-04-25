@@ -12,12 +12,11 @@
 
 import { defineConfig } from '@umijs/max';
 
-const publicPath = '/vsion.liusisi/';
-
+const publicPath = '/vsion.liusisi.github.io/'
 export default defineConfig({
   hash: true,
   publicPath,
-  outputPath: './dist' + publicPath,
+  outputPath: './dist',
   define: {
     'process.env.PUBLIC_DIR': publicPath,
   },
@@ -25,7 +24,7 @@ export default defineConfig({
   jsMinifier: 'terser',
   jsMinifierOptions: {},
   exportStatic: {}, // preview
-  base: publicPath,
+  base: '/',
   extraBabelPlugins: ['transform-react-remove-prop-types'],
   theme: {},
   // metas: [

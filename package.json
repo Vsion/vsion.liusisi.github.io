@@ -2,6 +2,7 @@
   "private": true,
   "name": "vsion.liusisi",
   "description": "Console for multicloud",
+  "homepage": "https://vsion.github.io/vsion.liusisi.github.io",
   "version": "1.0.0",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 UMI_ENV=prod max build",
@@ -11,6 +12,7 @@
     "test": "jest",
     "test:coverage": "max g jest --coverage",
     "build": "cross-env UMI_ENV=prod max build --max_old_space_size=4096",
+    "pub": "cross-env UMI_ENV=prod max build --max_old_space_size=4096 && gh-pages -d dist",
     "preview": "max preview --port 8888"
   },
   "dependencies": {
@@ -61,6 +63,7 @@
     "antd-mobile": "^5.29.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
     "cross-env": "^5.1.4",
+    "gh-pages": "^5.0.0",
     "jest": "^27",
     "lorem-ipsum": "^2.0.8",
     "prop-types": "^15.7.2",

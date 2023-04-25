@@ -30,7 +30,7 @@ http://${site}`;
 export default defineConfig({
   historyWithQuery: {},
   history: {
-    type: 'browser',
+    type: 'hash',
   },
   codeSplitting: {
     jsStrategy: 'granularChunks',
