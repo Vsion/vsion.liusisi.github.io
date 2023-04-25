@@ -8,16 +8,36 @@
     height: 200px;
     margin-bottom: 100px;
     .input {
-      transform: scale(2);
+      transform: scale(1.7);
+    }
+    .leftbtn, .rightbtn {
+      font-size: 40px;
+      transform: translateY(-18px);
+    }
+    .leftbtn {
+      float: left;
+    }
+    .rightbtn {
+      float: right;
     }
   }
   .btns {
     margin-top: 100px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
     .primary {
       height: 70px;
+      margin-bottom: 40px !important;
+    }
+    .reset {
+      margin-top: 50px;
     }
     :global {
       .adm-button {
+        width: 90%;
+        margin: 0 auto;
         margin-bottom: 16px;
       }
     }

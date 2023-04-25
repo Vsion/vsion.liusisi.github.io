@@ -17,6 +17,7 @@ import { useLocation, useSelector, history, Outlet } from '@umijs/max';
 import { Input, NumberKeyboard, Toast, PasscodeInput, Button } from 'antd-mobile';
 import { theme } from 'antd';
 import { DemoBlock } from '@/components/demos';
+import { PlusOutlined, MinusOutlined } from '@ant-design/icons'
 import styles from './index.less';
 import { audios } from '@/utils/constants'
 
@@ -38,8 +39,9 @@ const Index = (props: any) => {
   const user = useSelector((state: any) => state?.app?.user);
   React.useEffect(() => {}, []);
   const [visible, setVisible] = React.useState<any>('demo3')
-  const [value, setValue] = React.useState<any>('0')
+  const [value, setValue] = React.useState<any>('0000')
   const [ending, setEnd] = React.useState<any>(false)
+  const [playing, setPlaying] = React.useState<any>(false)
 
   const actions = {
     onClose: () => {
@@ -59,8 +61,8 @@ const Index = (props: any) => {
     }
   }
   const play = () => {
-    audio_ele && audio_ele.pause();
-    audio_ele = null;
+    setPlaying(true)
+    audio_ele && (audio_ele = null);
     const arr = [ audio_eles.before ]
     value.split('').forEach(item => {
       arr.push(audio_eles[parseInt(item)])
@@ -69,23 +71,57 @@ const Index = (props: any) => {
     let idx = 0
     const _deep = () => {
       audio_ele = arr[idx]
-      audio_ele.play();
-      audio_ele.onended = () => {
-        if (idx < arr.length -1) {
-          idx++;
-          _deep()
+      if (audio_ele) {
+        audio_ele.play();
+        audio_ele.onended = () => {
+          if (idx < arr.length -1) {
+            idx++;
+            _deep()
+          } else {
+            setPlaying(false)
+          }
+          return
         }
-        return
       }
     }
     _deep()
   }
+  const onCancel = () => {
+    setEnd(true)
+    setPlaying(false)
+    if (audio_ele) {
+      audio_ele.pause()
+      audio_ele && (audio_ele.currentTime = 0);
+      audio_ele = null
+    }
+    setTimeout(() => {
+      setEnd(false)
+    }, 500)
+  }
+  const add = (count: number) => {
+    const temp = (parseInt(value) + count) + ''
+    const arr = temp.split('')
+    while (arr.length < 4) {
+      arr.unshift('0')
+    }
+    setValue(arr.join(''))
+  }
   return (
     <div className={styles.wrapper}>
       <DemoBlock className={styles.inputwrapper}>
+        <Button
+          disabled={ending || playing}
+          className={styles.leftbtn}
+          onClick={() => {
+            add(-1)
+          }}
+        >
+          <MinusOutlined />
+        </Button>
         <PasscodeInput
           seperated
-          onChange={(_value) => {
+          onChange={(_value: any) => {
+            if (isNaN(_value)) return
             setValue(_value)
           }}
           className={styles.input}
@@ -99,19 +135,28 @@ const Index = (props: any) => {
           //   }}
           // />}
         />
+        <Button
+          className={styles.rightbtn}
+          disabled={ending || playing}
+          onClick={() => {
+            add(1)
+          }}
+        >
+          <PlusOutlined />
+        </Button>
         <div className={styles.btns}>
-          <Button block color="primary" onClick={play} className={styles.primary} size="large">
+          <Button loading={playing} block color="primary" onClick={play} className={styles.primary} size="large">
             叫号
           </Button>
-          <Button loading={ending} onClick={() => {
-            setEnd(true)
-            console.dir(audio_ele)
-            audio_ele.pause()
-            setTimeout(() => {
-              setEnd(false)
-            }, 500)
-          }} block color="danger" size="large">
+          <Button loading={ending} onClick={onCancel} block color="danger" size="large">
             取消
+          </Button>
+          <Button className={styles.reset} onClick={() => {
+            onCancel()
+            setValue('0000')
+            audio_ele = null
+          }} block color="danger" size="large">
+            重置
           </Button>
         </div>
       </DemoBlock>
