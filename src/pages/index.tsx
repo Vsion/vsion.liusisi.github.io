@@ -21,6 +21,15 @@ import styles from './index.less';
 import { audios } from '@/utils/constants'
 
 let audio_ele: any
+const pre = window.location.pathname === '/' ? '' : window.location.pathname
+const audio_eles: any = {}
+Object.keys(audios).forEach(item => {
+  const src = pre + audios[item]
+  const temp = new Audio(src);
+  temp.src = src;
+  temp.preload = 'auto';
+  audio_eles[item] = temp
+})
 
 const Index = (props: any) => {
   const location = useLocation();
@@ -50,20 +59,16 @@ const Index = (props: any) => {
     }
   }
   const play = () => {
-    const pre = window.location.pathname === '/' ? '' : window.location.pathname
     audio_ele && audio_ele.pause();
     audio_ele = null;
-    const arr = [ pre + audios.before ]
+    const arr = [ audio_eles.before ]
     value.split('').forEach(item => {
-      arr.push(pre
-        + audios[item])
+      arr.push(audio_eles[parseInt(item)])
     })
-    arr.push(pre + audios.after)
+    arr.push(audio_eles.after)
     let idx = 0
     const _deep = () => {
-      const item = arr[idx]
-      audio_ele = new Audio(item);
-      audio_ele.src = item;
+      audio_ele = arr[idx]
       audio_ele.play();
       audio_ele.onended = () => {
         if (idx < arr.length -1) {
