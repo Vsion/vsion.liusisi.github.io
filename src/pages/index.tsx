@@ -18,22 +18,9 @@ import { Input, NumberKeyboard, Toast, PasscodeInput, Button } from 'antd-mobile
 import { theme } from 'antd';
 import { DemoBlock } from '@/components/demos';
 import styles from './index.less';
+import { audios } from '@/utils/constants'
 
 let audio_ele: any
-const audios: any = {
-  before: '/before.wav',
-  after: '/after.wav',
-  0: '/0.wav',
-  1: '/1.wav',
-  2: '/2.wav',
-  3: '/3.wav',
-  4: '/4.wav',
-  5: '/5.wav',
-  6: '/6.wav',
-  7: '/7.wav',
-  8: '/8.wav',
-  9: '/9.wav',
-}
 
 const Index = (props: any) => {
   const location = useLocation();
@@ -63,11 +50,15 @@ const Index = (props: any) => {
     }
   }
   const play = () => {
-    const arr = [ audios.before ]
+    const pre = window.location.pathname === '/' ? '' : window.location.pathname
+    audio_ele && audio_ele.pause();
+    audio_ele = null;
+    const arr = [ pre + audios.before ]
     value.split('').forEach(item => {
-      arr.push(audios[item])
+      arr.push(pre
+        + audios[item])
     })
-    arr.push(audios.after)
+    arr.push(pre + audios.after)
     let idx = 0
     const _deep = () => {
       const item = arr[idx]
