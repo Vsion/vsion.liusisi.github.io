@@ -1,0 +1,80 @@
+@import '~@/assets/style/core/index.less';
+
+.header {
+  width: 100%;
+  height: @layout-header-height;
+  line-height: @layout-header-height;
+}
+.content {
+  padding: @layout-content-padding;
+  min-height: calc(100vh - @layout-header-height);
+  .children {
+    min-height: calc(100vh - @layout-header-height - @layout-content-padding-bottom * 2);
+  }
+}
+
+.basic_layout {
+  :global {
+    .ant-pro-page-container-children-content {
+      padding: 0;
+    }
+    .ant-pro-card-body {
+      padding: 0;
+    }
+  }
+}
+
+.page_layout {
+  .actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+    & > div, & > span {
+      margin-left: @padding-small;
+      float: left;
+    }
+  }
+  
+  .themeBtn {
+    line-height: 34px;
+    text-align: center;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    margin-top: 10px;
+    background-color: #ffffff;
+    transition: all .3s;
+    &:hover {
+      background-color: #eeeeee;
+      cursor: pointer;
+    }
+  }
+  // .themeBtn.dark {
+  //   background-color: #aaaaaa;
+  // }
+  
+  .logo {
+    height: 32px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .collapsedBtn {
+    text-align: center;
+    line-height: 40px;
+    height: 40;
+    cursor: pointer;
+  }
+  
+  .links {
+    margin-left: @padding-small;
+    .linkitem {
+      a {
+        color: @font-color-white-1;
+        &:hover {
+          color: @font-color-white-3;
+        } 
+      }
+    }
+  }
+}
